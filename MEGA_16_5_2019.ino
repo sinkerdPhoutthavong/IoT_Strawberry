@@ -4,19 +4,17 @@
       #include <Wire.h>
       #include <Keypad.h>
       #include <Password.h>   
+      
       //LCD
       const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
       LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-
-      //DERIAL COMUNICATION
-      SoftwareSerial MegaSerial(18, 19); // RX, TX
 
       String MyinputString = "";
       char inChar;
 
       //DHT
       char inChar1;
-      int Temp, Humi,Temp2,Humi2,Temp3,Humi3;
+      int Temp, Humi,Temp2,Humi2;
       #define DHTPIN A0
       #define DHTPIN2 A7
       #define DHTPIN3 A3
@@ -46,10 +44,10 @@
       
       //Buzzer
       #define Buzzer 22
-
+    
       // CONDITION HIGH
-      int TempHIGH = 33;
-      int HumiHIGH = 70;
+      int TempHIGH = 30;
+      int HumiHIGH = 80;
       
       //KEYPAD
       int STATE = HIGH;
@@ -70,22 +68,10 @@
 
       boolean OFF =  HIGH;
       boolean ON = LOW;
-
-      boolean CONTROL_WATER_PUMP = 0;
-      boolean CONTROL_COOLER = 0;
-      boolean CONTROL_COOLER_PUMP = 0;
-      boolean CONTROL_FAN_IN_OUT = 0;
-
-      boolean STATE_CONTROL_WATER_PUMP   = 0;
-      boolean STATE_CONTROL_COOLER = 0;
-      boolean STATE_CONTROL_COOLER_PUMP = 0;
-      boolean STATE_CONTROL_FAN_IN_OUT = 0;
         
-      
-      
       DHT dht(DHTPIN, DHTTYPE);
       DHT dht2(DHTPIN2, DHTTYPE);
-      DHT dht3(DHTPIN3, DHTTYPE);
+      
 void setup() {
       SET_SENSOR();
       SET_LCD();
@@ -102,12 +88,11 @@ void loop() {
                 Get_Soil();
                 Get_LDR();
                 delay(50);  
-                Serial.print("GII");
                  if(key == NO_KEY){
                     Condition_SENSOR();
-                    Input();
                     if(AVG_HUMI >= 80 && AVG_TEMP > 31 ){
 //                            digitalWrite(FAN_IN_OUT,ON);
+//                            delay(5000);
                            // digitalWrite(WATER_PUMP,OFF);
                             digitalWrite(COOLER_PUMP, ON);
                     }
